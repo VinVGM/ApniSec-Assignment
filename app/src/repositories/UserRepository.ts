@@ -22,11 +22,42 @@ export class UserRepository {
     return this.mapRowToUser(result.rows[0]);
   }
 
+  async findById(id: string): Promise<User | null> {
+    const result = await this.db.query('SELECT * FROM users WHERE id = $1', [id]);
+    if (result.rows.length === 0) return null;
+    return this.mapRowToUser(result.rows[0]);
+  }
+
+  async update(id: string, data: Partial<User>): Promise<User | null> {
+    const fields = Object.keys(data);
+    if (fields.length === 0) return this.findById(id);
+
+    // Build dynamic update query
+    const setClause = fields.map((field, index) => `${field} = $${index + 2}`).join(', ');
+    const values = [id, ...Object.values(data)];
+
+    const query = `
+      UPDATE users 
+      SET ${setClause}, updated_at = NOW() 
+      WHERE id = $1 
+      RETURNING *
+    `;
+
+    const result = await this.db.query(query, values);
+    if (result.rows.length === 0) return null;
+    return this.mapRowToUser(result.rows[0]);
+  }
+
   private mapRowToUser(row: any): User {
     return {
       id: row.id,
       email: row.email,
-      password_hash: row.password, // Mapping 'password' column to 'password_hash' property
+      password_hash: row.password, 
+      full_name: row.full_name,
+      role: row.role,
+      bio: row.bio,
+      location: row.location,
+      status: row.status,
       created_at: row.created_at,
       updated_at: row.updated_at,
     };

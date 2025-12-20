@@ -14,7 +14,35 @@
 - [x] Implement Auth Middleware
 - [x] Build Frontend Auth Pages
 
-## 3. Rate Limiting (Custom System)
+## 3. User Profile Management
+- [x] Implement DB Migration (add profile fields)
+- [x] Implement UserService & UserHandler
+- [x] Add Update method to UserRepository
+- [x] Create Profile API Routes
+- [x] Build Profile Frontend Page
+
+## 4. Issue Management (API 2)
+- [x] Create DB Migration (Issues table)
+- [x] Implement IssueRepository
+- [x] Implement IssueValidator
+- [x] Implement IssueService
+- [x] Implement IssueHandler & API Routes
+- [x] Build Frontend Issue Dashboard
+- [x] Implement Search in Backend (Repo/Service/Handler)
+- [x] Add Search, Edit & Custom Delete Dialog to Issues Page
+- [x] Add Ranked List & Global Search to Dashboard
+
+
+## 6. Community Feed (Posts API)
+- [x] DB Migration (Posts & Likes)
+- [x] Post Repository & Model
+- [x] Post Validator
+- [x] Post Service
+- [x] Post Handler & API Routes
+- [x] Frontend: Feed Card in Dashboard
+- [x] Like Button Implementation
+
+## 7. Rate Limiting (Custom System)
 - [ ] Design Rate Limiter Class
 - [ ] Implement RateLimiter Service
 - [ ] Apply to API routes
@@ -30,5 +58,12 @@
 - [ ] Optimize initial page load & semantic HTML
 
 ## 6. Verification & Final Polish
+- [x] Refactor all Handlers to use BaseHandler (OOP Inheritance)
 - [ ] Full system walk-through
 - [ ] Code review for OOP strictness
+
+## 8. Landing Page
+- [x] Design Hero Section
+- [x] Build Services Grid (VAPT, Cloud, etc.)
+- [x] Implement Navbar & Footer
+- [x] Optimize SEO & Accessibility

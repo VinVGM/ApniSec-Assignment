@@ -1,44 +1,282 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Textarea } from "@/components/ui/textarea";
+
+interface Issue {
+    id: string;
+    title: string;
+    priority: string;
+    status: string;
+}
+
+interface Post {
+    id: string;
+    content: string;
+    created_at: string;
+    author: {
+        full_name: string;
+        role: string;
+    };
+    like_count: number;
+    is_liked: boolean;
+}
+
+const PRIORITY_MAP: Record<string, number> = {
+    'Critical': 3,
+    'High': 2,
+    'Medium': 1,
+    'Low': 0
+};
 
 export default function DashboardPage() {
   const router = useRouter();
+  const [issues, setIssues] = useState<Issue[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [postContent, setPostContent] = useState("");
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
+
+  const fetchPosts = async () => {
+      try {
+          const res = await fetch("/api/posts");
+          if(res.ok) setPosts(await res.json());
+      } catch(e) { console.error(e); }
+  };
+
+  const handlePostCreate = async (e: React.FormEvent) => {
+      e.preventDefault();
+      if(!postContent.trim()) return;
+      
+      try {
+          const res = await fetch("/api/posts", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ content: postContent })
+          });
+          if(res.ok) {
+              setPostContent("");
+              fetchPosts();
+          }
+      } catch(e) {
+          alert("Failed to post");
+      }
+  };
+
+  const handleLike = async (id: string) => {
+      try {
+          // Optimistic update
+          setPosts(posts.map(p => 
+              p.id === id 
+              ? { ...p, is_liked: !p.is_liked, like_count: p.is_liked ? p.like_count - 1 : p.like_count + 1 }
+              : p
+          ));
+          await fetch(`/api/posts/${id}/like`, { method: "POST" });
+      } catch(e) {
+          fetchPosts(); // Revert on error
+      }
+  };
+
+  useEffect(() => {
+    fetch("/api/issues")
+        .then(res => res.ok ? res.json() : [])
+        .then((data: Issue[]) => {
+            // Sort by priority desc
+            const sorted = data.sort((a, b) => (PRIORITY_MAP[b.priority] || 0) - (PRIORITY_MAP[a.priority] || 0));
+            setIssues(sorted);
+        })
+        .catch(() => setIssues([]));
+  }, []);
 
   const handleLogout = async () => {
     await fetch("/api/auth/logout", { method: "POST" });
     router.push("/login");
   };
 
+  const handleSearch = (e: React.FormEvent) => {
+      e.preventDefault();
+      if(searchQuery.trim()) {
+          router.push(`/dashboard/issues?q=${encodeURIComponent(searchQuery)}`);
+      }
+  };
+
+  const getPriorityColor = (p: string) => {
+      switch(p) {
+          case 'Critical': return 'bg-red-500 hover:bg-red-600';
+          case 'High': return 'bg-orange-500 hover:bg-orange-600';
+          case 'Medium': return 'bg-yellow-500 hover:bg-yellow-600';
+          default: return 'bg-primary/80 hover:bg-primary';
+      }
+  }
+
   return (
     <div className="min-h-screen bg-background text-foreground p-8 font-mono">
         <div className="max-w-7xl mx-auto space-y-8">
-            <header className="flex justify-between items-center border-b border-primary/20 pb-4">
-                <h1 className="text-3xl font-bold text-primary tracking-tight">COMMAND CENTER</h1>
-                <Button 
-                    onClick={handleLogout} 
-                    variant="outline"
-                    className="border-destructive/50 text-destructive hover:bg-destructive/10 hover:text-destructive"
-                >
-                    TERMINATE SESSION
-                </Button>
+            <header className="flex flex-col gap-6 border-b border-primary/20 pb-6">
+                <div className="flex justify-between items-center">
+                    <div>
+                        <h1 className="text-3xl font-bold text-primary tracking-tight">COMMAND CENTER</h1>
+                         <p className="text-muted-foreground text-xs uppercase tracking-widest mt-1">Status: Online</p>
+                    </div>
+                    <div className="flex gap-4">
+                        <Button 
+                            onClick={() => router.push('/profile')} 
+                            variant="ghost"
+                            className="text-primary hover:bg-primary/10"
+                        >
+                            PROFILE
+                        </Button>
+                        <Button 
+                            onClick={handleLogout} 
+                            variant="outline"
+                            className="border-destructive/50 text-destructive hover:bg-destructive/10 hover:text-destructive"
+                        >
+                            TERMINATE SESSION
+                        </Button>
+                    </div>
+                </div>
+
             </header>
             
             <main className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="bg-card border border-primary/10 p-6 rounded-lg shadow-sm">
-                    <h2 className="text-lg font-bold text-primary mb-2">SYSTEM STATUS</h2>
-                    <p className="text-muted-foreground">ALL SYSTEMS OPERATIONAL</p>
+                 {/* Overview Stats */}
+                <div className="bg-card border border-primary/10 p-6 rounded-lg shadow-sm hover:border-primary/30 transition-all cursor-pointer group" onClick={() => router.push('/dashboard/issues')}>
+                    <h2 className="text-lg font-bold text-primary mb-2 group-hover:text-primary/80">VULNERABILITY TRACKER</h2>
+                    <p className="text-muted-foreground text-sm uppercase tracking-wide">Active Reports</p>
+                    <p className="text-4xl text-primary font-bold mt-4">{issues.length}</p>
+                    <p className="text-xs text-muted-foreground mt-2 group-hover:underline">ACCESS DATABASE &rarr;</p>
                 </div>
+
+                {/* Top Priority Issues List */}
+                <div className="md:col-span-2 bg-card border border-primary/10 p-6 rounded-lg shadow-sm">
+                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+                        <h2 className="text-lg font-bold text-primary">PRIORITY INTEL</h2>
+                         {/* Search within card */}
+                         <div className="flex gap-2 w-full md:w-auto">
+                            <form onSubmit={handleSearch} className="flex gap-2 w-full md:w-[300px]">
+                                <Input 
+                                    placeholder="SEARCH INTEL..." 
+                                    className="bg-background/50 border-primary/20 h-9"
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                />
+                                <Button type="submit" size="sm" className="bg-primary/20 text-primary hover:bg-primary/30 h-9">
+                                    SEARCH
+                                </Button>
+                            </form>
+                            <Button variant="ghost" size="sm" onClick={() => router.push('/dashboard/issues')} className="text-xs text-muted-foreground hover:text-primary h-9">VIEW ALL</Button>
+                        </div>
+                    </div>
+                    
+                    <div className="space-y-3">
+                        {issues.length === 0 ? (
+                            <p className="text-muted-foreground text-sm">No active threats detected.</p>
+                        ) : (
+                            issues.slice(0, 5).map(issue => (
+                                <div key={issue.id} className="flex items-center justify-between p-3 bg-background/50 rounded border border-primary/5 hover:border-primary/20 transition-all cursor-pointer" onClick={() => router.push('/dashboard/issues')}>
+                                    <div className="flex items-center gap-3 overflow-hidden">
+                                        <Badge className={`${getPriorityColor(issue.priority)} text-white border-0 w-20 justify-center`}>{issue.priority}</Badge>
+                                        <span className="font-semibold truncate text-sm">{issue.title}</span>
+                                    </div>
+                                    <span className="text-xs text-muted-foreground whitespace-nowrap">{issue.status}</span>
+                                </div>
+                            ))
+                        )}
+                    </div>
+                </div>
+
                  <div className="bg-card border border-primary/10 p-6 rounded-lg shadow-sm">
                     <h2 className="text-lg font-bold text-primary mb-2">THREAT LEVEL</h2>
-                     <p className="text-green-500 font-bold">LOW</p>
-                </div>
-                 <div className="bg-card border border-primary/10 p-6 rounded-lg shadow-sm">
-                    <h2 className="text-lg font-bold text-primary mb-2">ACTIVE NODES</h2>
-                    <p className="text-primary font-mono text-2xl">42</p>
+                     <p className={`text-4xl font-bold ${issues.some(i => i.priority === 'Critical') ? 'text-red-500 animate-pulse' : 'text-green-500'}`}>
+                         {issues.some(i => i.priority === 'Critical') ? 'CRITICAL' : 'LOW'}
+                     </p>
                 </div>
             </main>
+
+             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+                {/* Community Feed */}
+                <div className="md:col-span-2 bg-card border border-primary/10 p-6 rounded-lg shadow-sm">
+                    <h2 className="text-lg font-bold text-primary mb-6">COMMUNITY INTEL FEED</h2>
+                    
+                    {/* Create Post */}
+                    <div className="flex gap-4 mb-8">
+                        <Avatar>
+                            <AvatarFallback className="bg-primary/20 text-primary">ME</AvatarFallback>
+                        </Avatar>
+                         <form onSubmit={handlePostCreate} className="flex-1 space-y-2">
+                             <Textarea 
+                                placeholder="Share intelligence..." 
+                                className="bg-background/50 border-primary/20 min-h-[80px]"
+                                value={postContent}
+                                onChange={(e) => setPostContent(e.target.value)}
+                             />
+                             <div className="flex justify-end">
+                                 <Button type="submit" size="sm" className="bg-primary text-primary-foreground font-bold" disabled={!postContent.trim()}>
+                                     POST UPDATE
+                                 </Button>
+                             </div>
+                         </form>
+                    </div>
+
+                    {/* Feed List */}
+                     <ScrollArea className="h-[400px] w-full pr-4">
+                        <div className="space-y-6">
+                            {posts.length === 0 ? (
+                                <p className="text-muted-foreground text-center py-8">No community updates yet.</p>
+                            ) : (
+                                posts.map(post => (
+                                    <div key={post.id} className="flex gap-4 border-b border-primary/10 pb-6 last:border-0 animation-in fade-in slide-in-from-bottom-2 duration-500">
+                                         <Avatar className="mt-1">
+                                            <AvatarFallback className="bg-primary/10 text-primary text-xs font-bold border border-primary/20">
+                                                {post.author?.full_name?.substring(0,2).toUpperCase() || 'AN'}
+                                            </AvatarFallback>
+                                        </Avatar>
+                                        <div className="flex-1 space-y-2">
+                                            <div className="flex justify-between items-start">
+                                                <div>
+                                                    <p className="font-bold text-primary/90 text-sm">{post.author?.full_name || 'Anonymous'}</p>
+                                                    <p className="text-xs text-muted-foreground">{post.author?.role || 'Operative'} • {new Date(post.created_at).toLocaleDateString()}</p>
+                                                </div>
+                                            </div>
+                                            <p className="text-sm text-foreground/90 whitespace-pre-wrap">{post.content}</p>
+                                            
+                                            <div className="flex gap-2 pt-1">
+                                                <Button 
+                                                    variant="ghost" 
+                                                    size="sm" 
+                                                    className={`h-6 px-2 text-xs gap-1 ${post.is_liked ? 'text-red-500 hover:text-red-600 hover:bg-red-500/10' : 'text-muted-foreground hover:text-primary hover:bg-primary/10'}`}
+                                                    onClick={() => handleLike(post.id)}
+                                                >
+                                                    ♥ {post.like_count}
+                                                </Button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))
+                            )}
+                        </div>
+                    </ScrollArea>
+                </div>
+
+                <div className="bg-card border border-primary/10 p-6 rounded-lg shadow-sm flex flex-col justify-center items-center text-center space-y-4">
+                    <div className="h-24 w-24 rounded-full bg-primary/5 border border-primary/20 flex items-center justify-center animate-pulse">
+                         <span className="text-4xl">🛡️</span>
+                    </div>
+                     <div>
+                         <h2 className="text-lg font-bold text-primary">SECURE CHANNEL</h2>
+                         <p className="text-sm text-muted-foreground mt-2">All communications are encrypted and logged for security auditing.</p>
+                     </div>
+                </div>
+            </div>
         </div>
     </div>
   );

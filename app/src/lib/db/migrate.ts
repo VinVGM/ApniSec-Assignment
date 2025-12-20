@@ -21,10 +21,10 @@ async function runMigrations() {
   const db = Database.getInstance();
   
   try {
-    const migrationPath = path.join(process.cwd(), 'src/lib/db/migrations/001_create_users_table.sql');
+    const migrationPath = path.join(process.cwd(), 'src/lib/db/migrations/004_create_posts_table.sql');
     const sql = fs.readFileSync(migrationPath, 'utf8');
     
-    console.log('Running migration: 001_create_users_table.sql');
+    console.log('Running migration: 004_create_posts_table.sql');
     await db.query(sql);
     console.log('Migration completed successfully.');
   } catch (error) {

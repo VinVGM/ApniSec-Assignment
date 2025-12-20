@@ -2,33 +2,26 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { UserRepository } from '../repositories/UserRepository';
 import { User } from '../models/User';
-import { z } from 'zod';
-
-const registerSchema = z.object({
-  email: z.string().min(1, "Email is required").email("Please enter a valid email address"),
-  password: z.string().min(1, "Password is required").min(8, "Password must be at least 8 characters long"),
-});
-
-const loginSchema = z.object({
-  email: z.string().min(1, "Email is required").email("Please enter a valid email address"),
-  password: z.string().min(1, "Password is required"),
-});
+import { AuthValidator } from '@/validators/AuthValidator';
+import { BadRequestError, UnauthorizedError } from '@/utils/AppError';
 
 export class AuthService {
   private userRepository: UserRepository;
+  private validator: AuthValidator;
 
   constructor() {
     this.userRepository = new UserRepository();
+    this.validator = new AuthValidator();
   }
 
-  async register(data: z.infer<typeof registerSchema>) {
-    // Validate input
-    const validated = registerSchema.parse(data);
+  async register(data: any) {
+    // Validate input using Validator Class
+    const validated = this.validator.validateRegister(data);
 
     // Check if user exists
     const existingUser = await this.userRepository.findByEmail(validated.email);
     if (existingUser) {
-      throw new Error('User already exists');
+      throw new BadRequestError('User already exists');
     }
 
     // Hash password
@@ -44,17 +37,18 @@ export class AuthService {
     return { user: this.sanitizeUser(user), token };
   }
 
-  async login(data: z.infer<typeof loginSchema>) {
-    const validated = loginSchema.parse(data);
+  async login(data: any) {
+    // Validate input using Validator Class
+    const validated = this.validator.validateLogin(data);
 
     const user = await this.userRepository.findByEmail(validated.email);
     if (!user) {
-      throw new Error('Invalid credentials');
+      throw new UnauthorizedError('Invalid credentials');
     }
 
     const isMatch = await bcrypt.compare(validated.password, user.password_hash);
     if (!isMatch) {
-      throw new Error('Invalid credentials');
+      throw new UnauthorizedError('Invalid credentials');
     }
 
     const token = this.generateToken(user);

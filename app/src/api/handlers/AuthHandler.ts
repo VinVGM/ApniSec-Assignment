@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { AuthService } from '@/services/AuthService';
-import { ZodError } from 'zod';
+import { BaseHandler } from './BaseHandler';
 
-export class AuthHandler {
+export class AuthHandler extends BaseHandler {
   private authService: AuthService;
 
   constructor() {
+    super();
     this.authService = new AuthService();
   }
 
@@ -62,18 +63,5 @@ export class AuthHandler {
         path: '/',
     });
     return response;
-  }
-
-  private handleError(error: any) {
-    if (error instanceof ZodError) {
-      // Format validation errors into a single string for valid display in simple UIs
-      const errorMessage = error.issues.map(issue => issue.message).join(', ');
-      return NextResponse.json({ error: errorMessage, details: error.issues }, { status: 400 });
-    }
-    if (error.message === 'User already exists' || error.message === 'Invalid credentials') {
-        return NextResponse.json({ error: error.message }, { status: 401 });
-    }
-    console.error('Auth Error:', error);
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }
