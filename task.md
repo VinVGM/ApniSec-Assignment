@@ -71,4 +71,10 @@
 - [x] Design Hero Section
 - [x] Build Services Grid (VAPT, Cloud, etc.)
 - [x] Implement Navbar & Footer
-- [x] Optimize SEO & Accessibility
+- [x] Make UI Responsive
+
+## 10. Rate Limiting System (OOP)
+- [x] Create RateLimitService (Singleton, Token Bucket)
+- [x] Integrate into BaseHandler
+- [x] Implement Duplicate Request Prevention
+- [x] Apply Limits to Auth, Issues, Posts, Profile

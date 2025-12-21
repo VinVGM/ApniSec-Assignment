@@ -12,6 +12,10 @@ export class AuthHandler extends BaseHandler {
 
   async register(req: NextRequest) {
     try {
+      // Rate Limit: 20 req / 15 min per IP
+      const rateLimitRes = this.checkRateLimit(req, 20, 15 * 60 * 1000);
+      if (rateLimitRes) return rateLimitRes;
+
       const body = await req.json();
       const result = await this.authService.register(body);
       
@@ -34,6 +38,10 @@ export class AuthHandler extends BaseHandler {
 
   async login(req: NextRequest) {
     try {
+      // Rate Limit: 20 req / 15 min per IP
+      const rateLimitRes = this.checkRateLimit(req, 20, 15 * 60 * 1000);
+      if (rateLimitRes) return rateLimitRes;
+
       const body = await req.json();
       const result = await this.authService.login(body);
       

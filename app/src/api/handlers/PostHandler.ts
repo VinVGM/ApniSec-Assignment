@@ -25,12 +25,22 @@ export class PostHandler extends BaseHandler {
   async create(req: NextRequest) {
     try {
       const userId = this.getUserId(req);
-      if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      if (!userId) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      }
+
+      // 1. Rate Limit (10 req / 1 min)
+      const rateLimitRes = this.checkRateLimit(req, 10, 60 * 1000, userId);
+      if (rateLimitRes) return rateLimitRes;
+
+      // 2. Duplicate Prevention (5 sec lock)
+      const dupRes = this.preventDuplicates(req, userId, 5000);
+      if (dupRes) return dupRes;
 
       const body = await req.json();
       const post = await this.service.createPost(userId, body);
       return NextResponse.json(post, { status: 201 });
-    } catch (error: any) {
+    } catch (error) {
       return this.handleError(error);
     }
   }
