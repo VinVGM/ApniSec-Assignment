@@ -24,7 +24,7 @@ export function CustomToast({ message, type = "success", onClose, duration = 300
       exit={{ opacity: 0, y: 20, transition: { duration: 0.2 } }}
       className={`fixed bottom-8 right-8 z-[100] flex flex-col overflow-hidden rounded-lg border shadow-2xl backdrop-blur-md min-w-[300px]
         ${type === "success" 
-          ? "bg-black/90 border-primary/50 text-primary shadow-primary/10" 
+          ? "bg-black/90 border-primary/50 text-white shadow-primary/10" 
           : "bg-black/90 border-destructive/50 text-destructive shadow-destructive/10"
         }`}
     >
