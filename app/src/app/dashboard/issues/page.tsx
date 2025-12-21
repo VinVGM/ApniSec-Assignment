@@ -1,4 +1,4 @@
-    "use client";
+"use client";
 
     import { useEffect, useState, useMemo } from "react";
     import { ArrowLeft } from "lucide-react";
@@ -12,6 +12,7 @@
     import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
     import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
     import { Badge } from "@/components/ui/badge";
+    import { IssueDetailModal } from "@/components/IssueDetailModal";
 
     interface Issue {
     id: string;
@@ -50,6 +51,10 @@ export default function IssuesPage() {
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [deleteId, setDeleteId] = useState<string | null>(null);
 
+  // Detail Modal State
+  const [selectedIssue, setSelectedIssue] = useState<Issue | null>(null);
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
+
   // Form State
   const [formData, setFormData] = useState(DEFAULT_FORM_DATA);
 
@@ -78,6 +83,11 @@ export default function IssuesPage() {
       setEditingId(null);
       setFormData(DEFAULT_FORM_DATA);
       setIsDialogOpen(true);
+  };
+
+  const handleIssueClick = (issue: Issue) => {
+      setSelectedIssue(issue);
+      setIsDetailOpen(true);
   };
 
   const fetchIssues = async () => {
@@ -265,6 +275,12 @@ export default function IssuesPage() {
             </div>
        </header>
 
+       <IssueDetailModal 
+          isOpen={isDetailOpen} 
+          onClose={() => setIsDetailOpen(false)} 
+          issue={selectedIssue} 
+       />
+
        <AlertDialog open={isDeleteOpen} onOpenChange={setIsDeleteOpen}>
             <AlertDialogContent className="bg-card border-primary/20 text-foreground">
                 <AlertDialogHeader>
@@ -288,7 +304,11 @@ export default function IssuesPage() {
                    <p className="text-muted-foreground col-span-full text-center">No issues found matching parameters.</p>
                ) : (
                    issues.map(issue => (
-                       <Card key={issue.id} className="border-primary/10 bg-card/50 hover:bg-card hover:border-primary/30 transition-all group">
+                       <Card 
+                          key={issue.id} 
+                          className="border-primary/10 bg-card/50 hover:bg-card hover:border-primary/30 transition-all group cursor-pointer"
+                          onClick={() => handleIssueClick(issue)}
+                        >
                            <CardHeader className="pb-2">
                                <div className="flex justify-between items-start">
                                     <Badge variant="outline" className={`border-0 text-white ${getPriorityColor(issue.priority)}`}>{issue.priority}</Badge>
@@ -298,9 +318,13 @@ export default function IssuesPage() {
                                <CardDescription className="font-mono text-xs">{issue.type}</CardDescription>
                            </CardHeader>
                            <CardContent>
-                               <p className="text-sm text-muted-foreground line-clamp-3 mb-4">{issue.description}</p>
+                               <p className="text-sm text-muted-foreground line-clamp-3 mb-4 h-[60px]">
+                                   {issue.description.length > 100 
+                                      ? issue.description.substring(0, 100) + '...' 
+                                      : issue.description}
+                               </p>
                                <div className="flex justify-end gap-2 pt-2 border-t border-primary/5">
-                                   <Button variant="ghost" size="sm" onClick={() => handleEditOpen(issue)} className="text-primary hover:bg-primary/10 h-8">
+                                   <Button variant="ghost" size="sm" onClick={(e) => { e.stopPropagation(); handleEditOpen(issue); }} className="text-primary hover:bg-primary/10 h-8">
                                        EDIT
                                    </Button>
                                    <Button variant="ghost" size="sm" onClick={(e) => handleDeleteClick(issue.id, e)} className="text-destructive hover:bg-destructive/10 hover:text-destructive h-8">

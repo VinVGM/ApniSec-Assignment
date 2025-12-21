@@ -8,12 +8,18 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
+import { IssueDetailModal } from "@/components/IssueDetailModal";
+import { ThemeToggle } from "@/components/ThemeToggle";
+import { Shield } from "lucide-react";
 
 interface Issue {
     id: string;
     title: string;
     priority: string;
     status: string;
+    type: string;
+    description: string;
+    created_at: string;
 }
 
 interface Post {
@@ -26,6 +32,14 @@ interface Post {
     };
     like_count: number;
     is_liked: boolean;
+}
+
+interface User {
+    id: string;
+    username: string;
+    full_name: string;
+    role: string;
+    email: string;
 }
 
 const PRIORITY_MAP: Record<string, number> = {
@@ -41,10 +55,23 @@ export default function DashboardPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [posts, setPosts] = useState<Post[]>([]);
   const [postContent, setPostContent] = useState("");
+  const [user, setUser] = useState<User | null>(null);
+  
+  // Modal State
+  const [selectedIssue, setSelectedIssue] = useState<Issue | null>(null);
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
 
   useEffect(() => {
     fetchPosts();
+    fetchUser();
   }, []);
+
+  const fetchUser = async () => {
+      try {
+          const res = await fetch("/api/users/profile");
+          if(res.ok) setUser(await res.json());
+      } catch(e) { console.error(e); }
+  };
 
   const fetchPosts = async () => {
       try {
@@ -108,6 +135,11 @@ export default function DashboardPage() {
           router.push(`/dashboard/issues?q=${encodeURIComponent(searchQuery)}`);
       }
   };
+  
+  const handleIssueClick = (issue: Issue) => {
+      setSelectedIssue(issue);
+      setIsDetailOpen(true);
+  };
 
   const getPriorityColor = (p: string) => {
       switch(p) {
@@ -120,14 +152,36 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground p-8 font-mono">
+        
+        <IssueDetailModal 
+            isOpen={isDetailOpen} 
+            onClose={() => setIsDetailOpen(false)} 
+            issue={selectedIssue} 
+        />
+        
         <div className="max-w-7xl mx-auto space-y-8">
             <header className="flex flex-col gap-6 border-b border-primary/20 pb-6">
                 <div className="flex justify-between items-center">
                     <div>
-                        <h1 className="text-3xl font-bold text-primary tracking-tight">COMMAND CENTER</h1>
+                        <div className="flex items-center gap-2">
+                            <Shield className="h-6 w-6 text-primary animate-pulse" />
+                            <span className="font-mono text-xl font-bold tracking-tighter text-primary">
+                                APNI<span className="text-primary">SEC DASHBOARD</span>
+                            </span>
+                        </div>
                          <p className="text-muted-foreground text-xs uppercase tracking-widest mt-1">Status: Online</p>
                     </div>
-                    <div className="flex gap-4">
+                    <div className="flex gap-4 items-center">
+                        <ThemeToggle />
+                        
+                        
+                        <Button 
+                            onClick={() => router.push('/dashboard/issues')} 
+                            variant="ghost"
+                            className="text-primary hover:bg-primary/10"
+                        >
+                            ISSUE TRACKER
+                        </Button>
                         <Button 
                             onClick={() => router.push('/profile')} 
                             variant="ghost"
@@ -135,12 +189,28 @@ export default function DashboardPage() {
                         >
                             PROFILE
                         </Button>
+
+                        {user && (
+                            <div className="flex items-center gap-3 mr-2 bg-primary/5 px-3 py-1.5 rounded-full border border-primary/10">
+                                <Avatar className="h-8 w-8 border border-primary/20">
+                                    <AvatarFallback className="bg-primary/10 text-primary text-xs font-bold">
+                                        {user.full_name?.substring(0, 2).toUpperCase() || user.username?.substring(0, 2).toUpperCase() || 'OP'}
+                                    </AvatarFallback>
+                                </Avatar>
+                                <div className="hidden md:block text-right">
+                                    <p className="text-sm font-bold text-primary leading-none">{user.full_name || user.username}</p>
+                                    <p className="text-[10px] text-muted-foreground uppercase tracking-wider">{user.role || 'OPERATIVE'}</p>
+                                </div>
+                            </div>
+                        )}
+
+
                         <Button 
                             onClick={handleLogout} 
                             variant="outline"
                             className="border-destructive/50 text-destructive hover:bg-destructive/10 hover:text-destructive"
                         >
-                            TERMINATE SESSION
+                            LOGOUT
                         </Button>
                     </div>
                 </div>
@@ -157,7 +227,7 @@ export default function DashboardPage() {
                             <p className="text-muted-foreground text-sm uppercase tracking-wide">Active Reports</p>
                         </div>
                         <p className="text-4xl text-primary font-bold mt-4">{issues.length}</p>
-                        <p className="text-xs text-muted-foreground mt-2 group-hover:underline">ACCESS DATABASE &rarr;</p>
+                        <p className="text-xs text-muted-foreground mt-2 group-hover:underline">VIEW ALL ISSUES &rarr;</p>
                     </div>
 
                     {/* Threat Level */}
@@ -169,15 +239,15 @@ export default function DashboardPage() {
                     </div>
                  </div>
 
-                {/* Right Column: Priority Intel */}
+    
                 <div className="md:col-span-2 bg-card border border-primary/10 p-6 rounded-lg shadow-sm h-full flex flex-col">
                     <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4 shrink-0">
-                        <h2 className="text-lg font-bold text-primary">PRIORITY INTEL</h2>
+                        <h2 className="text-lg font-bold text-primary">ISSUES OVERVIEW</h2>
                          {/* Search within card */}
                          <div className="flex gap-2 w-full md:w-auto">
                             <form onSubmit={handleSearch} className="flex gap-2 w-full md:w-[300px]">
                                 <Input 
-                                    placeholder="SEARCH INTEL..." 
+                                    placeholder="SEARCH ISSUES..." 
                                     className="bg-background/50 border-primary/20 h-9"
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
@@ -195,7 +265,11 @@ export default function DashboardPage() {
                             <p className="text-muted-foreground text-sm">No active threats detected.</p>
                         ) : (
                             issues.slice(0, 10).map(issue => (
-                                <div key={issue.id} className="flex items-center justify-between p-3 bg-background/50 rounded border border-primary/5 hover:border-primary/20 transition-all cursor-pointer" onClick={() => router.push('/dashboard/issues')}>
+                                <div 
+                                    key={issue.id} 
+                                    className="flex items-center justify-between p-3 bg-background/50 rounded border border-primary/5 hover:border-primary/20 transition-all cursor-pointer" 
+                                    onClick={() => handleIssueClick(issue)}
+                                >
                                     <div className="flex items-center gap-3 overflow-hidden">
                                         <Badge className={`${getPriorityColor(issue.priority)} text-white border-0 w-20 justify-center`}>{issue.priority}</Badge>
                                         <span className="font-semibold truncate text-sm">{issue.title}</span>
@@ -209,9 +283,9 @@ export default function DashboardPage() {
             </main>
 
              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-                {/* Community Feed */}
+                {/* Team Feed */}
                 <div className="md:col-span-2 bg-card border border-primary/10 p-6 rounded-lg shadow-sm">
-                    <h2 className="text-lg font-bold text-primary mb-6">COMMUNITY INTEL FEED</h2>
+                    <h2 className="text-lg font-bold text-primary mb-6">TEAM INTEL FEED</h2>
                     
                     {/* Create Post */}
                     <div className="flex gap-4 mb-8">

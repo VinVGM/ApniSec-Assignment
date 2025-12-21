@@ -49,10 +49,10 @@ export default function RegisterPage() {
       <Card className="w-full max-w-md border-primary/20 shadow-[0_0_15px_rgba(34,197,94,0.1)] bg-card z-10">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl font-bold tracking-tight text-primary font-mono">
-            NEW OPERATIVE
+            NEW ACCOUNT
           </CardTitle>
           <CardDescription className="text-muted-foreground/80 font-mono text-xs uppercase tracking-widest">
-            Create Clearance Credentials
+            Create LOGIN Credentials
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -84,7 +84,7 @@ export default function RegisterPage() {
                 />
                 </div>
                 <div className="space-y-2">
-                <Label htmlFor="sector" className="font-mono text-primary/80">Sector</Label>
+                <Label htmlFor="sector" className="font-mono text-primary/80">Location</Label>
                 <Input
                     id="sector"
                     type="text"
@@ -98,7 +98,7 @@ export default function RegisterPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="email" className="font-mono text-primary/80">User Identifier</Label>
+              <Label htmlFor="email" className="font-mono text-primary/80">E-mail</Label>
               <Input
                 id="email"
                 type="email"
@@ -110,7 +110,7 @@ export default function RegisterPage() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password" className="font-mono text-primary/80">Passcode</Label>
+              <Label htmlFor="password" className="font-mono text-primary/80">Password</Label>
               <Input
                 id="password"
                 type="password"
@@ -130,13 +130,13 @@ export default function RegisterPage() {
                 className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-mono font-bold tracking-wide uppercase transition-all shadow-[0_0_10px_rgba(34,197,94,0.5)] hover:shadow-[0_0_20px_rgba(34,197,94,0.7)]" 
                 disabled={loading}
             >
-              {loading ? "REGISTERING..." : "GRANT ACCESS"}
+              {loading ? "REGISTERING..." : "REGISTER"}
             </Button>
           </form>
         </CardContent>
         <CardFooter className="flex justify-center border-t border-primary/10 pt-4">
           <p className="text-xs text-muted-foreground font-mono">
-           ALREADY ACTIVE? <a href="/login" className="text-primary hover:underline hover:text-primary/80 transition-colors">AUTHENTICATE</a>
+           ALREADY ACTIVE? <a href="/login" className="text-primary hover:underline hover:text-primary/80 transition-colors">LOGIN HERE</a>
           </p>
         </CardFooter>
       </Card>

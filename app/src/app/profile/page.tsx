@@ -86,7 +86,7 @@ export default function ProfilePage() {
        <Card className="w-full max-w-2xl border-primary/20 shadow-[0_0_15px_rgba(34,197,94,0.1)] bg-card z-10">
         <CardHeader className="border-b border-primary/10">
           <CardTitle className="text-2xl font-bold tracking-tight text-primary">
-            OPERATIVE PROFILE
+            EMPLOYEE PROFILE
           </CardTitle>
           <CardDescription className="text-muted-foreground/80 uppercase tracking-widest text-xs">
             Manage Identity & Status
@@ -96,11 +96,11 @@ export default function ProfilePage() {
           <form onSubmit={handleSave} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                    <Label htmlFor="email" className="text-primary/70 text-xs uppercase">Identifier (Read Only)</Label>
+                    <Label htmlFor="email" className="text-primary/70 text-xs uppercase">E-mail</Label>
                     <Input id="email" value={profile?.email || ""} disabled className="bg-muted/10 border-primary/10 text-muted-foreground cursor-not-allowed" />
                 </div>
                 <div className="space-y-2">
-                    <Label htmlFor="role" className="text-primary/70 text-xs uppercase">Clearance Role</Label>
+                    <Label htmlFor="role" className="text-primary/70 text-xs uppercase">Designation</Label>
                     <Input id="role" value={profile?.role || ""} onChange={handleChange} className="bg-background/50 border-primary/30 focus-visible:ring-primary/50" />
                 </div>
                 <div className="space-y-2">
@@ -108,7 +108,7 @@ export default function ProfilePage() {
                     <Input id="full_name" value={profile?.full_name || ""} onChange={handleChange} className="bg-background/50 border-primary/30 focus-visible:ring-primary/50" />
                 </div>
                 <div className="space-y-2">
-                    <Label htmlFor="location" className="text-primary/70 text-xs uppercase">Current Sector</Label>
+                    <Label htmlFor="location" className="text-primary/70 text-xs uppercase">Current Location</Label>
                     <Input id="location" value={profile?.location || ""} onChange={handleChange} className="bg-background/50 border-primary/30 focus-visible:ring-primary/50" />
                 </div>
                 <div className="space-y-2">
@@ -116,7 +116,7 @@ export default function ProfilePage() {
                     <Input id="status" value={profile?.status || ""} onChange={handleChange} className="bg-background/50 border-primary/30 focus-visible:ring-primary/50" />
                 </div>
                  <div className="space-y-2 md:col-span-2">
-                    <Label htmlFor="bio" className="text-primary/70 text-xs uppercase">Mission Brief / Bio</Label>
+                    <Label htmlFor="bio" className="text-primary/70 text-xs uppercase">Bio</Label>
                     <Input id="bio" value={profile?.bio || ""} onChange={handleChange} className="bg-background/50 border-primary/30 focus-visible:ring-primary/50" />
                 </div>
             </div>

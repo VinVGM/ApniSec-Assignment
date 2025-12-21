@@ -22,6 +22,7 @@
 - [x] Add Update method to UserRepository
 - [x] Create Profile API Routes
 - [x] Build Profile Frontend Page
+- [x] Add User Profile (Name/Avatar) to Dashboard Header
 
 ## 4. Issue Management (API 2)
 - [x] Create DB Migration (Issues table)
@@ -29,10 +30,11 @@
 - [x] Implement IssueValidator
 - [x] Implement IssueService
 - [x] Implement IssueHandler & API Routes
-- [x] Build Frontend Issue Dashboard
 - [x] Implement Search in Backend (Repo/Service/Handler)
 - [x] Add Search, Edit & Custom Delete Dialog to Issues Page
+- [x] Implement Issue Details Modal & Truncation
 - [x] Add Ranked List & Global Search to Dashboard
+- [x] Integrate Theme Toggle (Dark/Light for Dashboard)
 
 
 ## 6. Community Feed (Posts API)

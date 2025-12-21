@@ -47,7 +47,7 @@ export default function LoginPage() {
       <Card className="w-full max-w-md border-primary/20 shadow-[0_0_15px_rgba(34,197,94,0.1)] bg-card z-10">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl font-bold tracking-tight text-primary font-mono">
-            SECURE ACCESS
+            LOGIN
           </CardTitle>
           <CardDescription className="text-muted-foreground/80 font-mono text-xs uppercase tracking-widest">
             Identity Verification Required
@@ -56,7 +56,7 @@ export default function LoginPage() {
         <CardContent>
           <form onSubmit={handleLogin} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email" className="font-mono text-primary/80">User Identifier</Label>
+              <Label htmlFor="email" className="font-mono text-primary/80">E-mail</Label>
               <Input
                 id="email"
                 type="email"
@@ -68,7 +68,7 @@ export default function LoginPage() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password" className="font-mono text-primary/80">Passcode</Label>
+              <Label htmlFor="password" className="font-mono text-primary/80">Password</Label>
               <Input
                 id="password"
                 type="password"
@@ -88,13 +88,13 @@ export default function LoginPage() {
                 className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-mono font-bold tracking-wide uppercase transition-all shadow-[0_0_10px_rgba(34,197,94,0.5)] hover:shadow-[0_0_20px_rgba(34,197,94,0.7)]" 
                 disabled={loading}
             >
-              {loading ? "AUTHENTICATING..." : "INITIATE SESSION"}
+              {loading ? "AUTHENTICATING..." : "LOGIN"}
             </Button>
           </form>
         </CardContent>
         <CardFooter className="flex justify-center border-t border-primary/10 pt-4">
           <p className="text-xs text-muted-foreground font-mono">
-           NO ACCOUNT? <a href="/register" className="text-primary hover:underline hover:text-primary/80 transition-colors">ESTABLISH UPLINK</a>
+           NO ACCOUNT? <a href="/register" className="text-primary hover:underline hover:text-primary/80 transition-colors">CREATE AN ACCOUNT HERE</a>
           </p>
         </CardFooter>
       </Card>
