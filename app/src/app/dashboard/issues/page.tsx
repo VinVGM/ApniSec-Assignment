@@ -13,6 +13,8 @@
     import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
     import { Badge } from "@/components/ui/badge";
     import { IssueDetailModal } from "@/components/IssueDetailModal";
+    import { CustomToast } from "@/components/ui/custom-toast";
+    import { AnimatePresence } from "framer-motion";
 
     interface Issue {
     id: string;
@@ -59,6 +61,17 @@ function IssuesContent() {
 
   // Form State
   const [formData, setFormData] = useState(DEFAULT_FORM_DATA);
+
+  // Toast State
+  const [toast, setToast] = useState<{ message: string; type: "success" | "error"; visible: boolean }>({
+      message: "",
+      type: "success",
+      visible: false
+  });
+
+  const showToast = (message: string, type: "success" | "error" = "success") => {
+      setToast({ message, type, visible: true });
+  };
 
   useEffect(() => {
     // Debounce search could be better, but basic effect is okay for now
@@ -129,12 +142,13 @@ function IssuesContent() {
             fetchIssues();
             setFormData(DEFAULT_FORM_DATA);
             setEditingId(null);
+            showToast(editingId ? "Issue updated successfully." : "New vulnerability reported successfully.");
         } else {
             const data = await res.json();
-            alert(data.error || "Operation failed");
+            showToast(data.error || "Operation failed", "error");
         }
     } catch (e) {
-        alert("An error occurred");
+        showToast("An unexpected error occurred.", "error");
     }
   };
 
@@ -152,9 +166,10 @@ function IssuesContent() {
               setIssues(issues.filter(i => i.id !== deleteId));
               setIsDeleteOpen(false);
               setDeleteId(null);
+              showToast("Vulnerability record permanently deleted.");
           }
       } catch(e) {
-          alert("Failed to delete");
+          showToast("Failed to delete record.", "error");
       }
   };
   
@@ -168,8 +183,16 @@ function IssuesContent() {
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground p-8 font-mono">
-
+    <div className="min-h-screen bg-background text-foreground p-8 font-mono relative">
+       <AnimatePresence>
+            {toast.visible && (
+                <CustomToast 
+                    message={toast.message} 
+                    type={toast.type} 
+                    onClose={() => setToast(prev => ({ ...prev, visible: false }))} 
+                />
+            )}
+       </AnimatePresence>
 
        <header className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 border-b border-primary/20 pb-4 gap-4">
             <div className="flex items-center gap-4">
