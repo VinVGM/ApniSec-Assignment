@@ -68,6 +68,15 @@ The backend follows a strict **Object-Oriented Programming (OOP)** architecture 
     -   Issue Created (Notification to team).
 -   **Templates**: Custom HTML templates with "Hacker/Console" aesthetic.
 
+### 3.8 Notification System (Custom Toast)
+-   **Component**: `src/components/ui/custom-toast.tsx`
+-   **Design**: Replaces standard browser alerts with a polished, animated UI.
+-   **Animations**: Powered by **Framer Motion** for smooth slide-in/slide-out effects.
+-   **Features**:
+    -   **Position**: Fixed Bottom-Right.
+    -   **Reverse Loading Bar**: A visual timer bar that shrinks to indicate auto-dismissal time.
+    -   **Feedback**: Color-coded (Green/Red) system for Success and Error states.
+
 ## 4. API Reference
 
 ### Auth
