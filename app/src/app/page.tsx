@@ -108,11 +108,15 @@ export default function LandingPage() {
 
           <div className="flex flex-col md:flex-row gap-4 justify-center">
             <Link href="#contact">
-                <ShimmerButton className="shadow-2xl">
+                <Button 
+                variant="outline"
+                size="lg"
+                className="border-white/10 text-white bg-white/5 hover:bg-white/10 hover:border-white/20 h-[52px] px-8 text-base rounded-full"
+                >
                     <span className="whitespace-pre-wrap text-center text-sm font-medium leading-none tracking-tight text-white dark:from-white dark:to-slate-900/10 lg:text-lg">
                     GET SECURED
                     </span>
-                </ShimmerButton>
+                </Button>
             </Link>
             <Link href="/dashboard">
               <Button

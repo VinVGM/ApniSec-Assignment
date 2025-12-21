@@ -10,7 +10,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
 import { IssueDetailModal } from "@/components/IssueDetailModal";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { Shield } from "lucide-react";
+import { Shield, LayoutList, User as UserIcon, LogOut, ArrowUpRight, Search } from "lucide-react";
 
 interface Issue {
     id: string;
@@ -167,53 +167,57 @@ export default function DashboardPage() {
                 <div className="flex justify-between items-center">
                     <div>
                         <div className="flex items-center gap-2">
-                            <Shield className="h-6 w-6 text-primary animate-pulse" />
-                            <span className="font-mono text-xl font-bold tracking-tighter text-primary">
-                                APNI<span className="text-primary">SEC DASHBOARD</span>
+                            <Shield className="h-5 w-5 md:h-6 md:w-6 text-primary animate-pulse" />
+                            <span className="font-mono text-lg md:text-xl font-bold tracking-tighter text-primary">
+                                APNI<span className="text-primary">SEC <span className="hidden sm:inline">DASHBOARD</span></span>
                             </span>
                         </div>
-                         <p className="text-muted-foreground text-xs uppercase tracking-widest mt-1">Status: Online</p>
+                         <p className="text-muted-foreground text-[10px] md:text-xs uppercase tracking-widest mt-1">Status: Online</p>
                     </div>
-                    <div className="flex gap-4 items-center">
+                    <div className="flex gap-2 md:gap-4 items-center">
                         <ThemeToggle />
-                        
                         
                         <Button 
                             onClick={() => router.push('/dashboard/issues')} 
                             variant="ghost"
+                            size="sm"
                             className="text-primary hover:bg-primary/10"
                         >
-                            ISSUE TRACKER
+                            <LayoutList className="h-5 w-5 md:mr-2" />
+                            <span className="hidden md:inline">ISSUE TRACKER</span>
                         </Button>
                         <Button 
                             onClick={() => router.push('/profile')} 
                             variant="ghost"
+                            size="sm"
                             className="text-primary hover:bg-primary/10"
                         >
-                            PROFILE
+                            <UserIcon className="h-5 w-5 md:mr-2" />
+                            <span className="hidden md:inline">PROFILE</span>
                         </Button>
 
                         {user && (
-                            <div className="flex items-center gap-3 mr-2 bg-primary/5 px-3 py-1.5 rounded-full border border-primary/10">
-                                <Avatar className="h-8 w-8 border border-primary/20">
-                                    <AvatarFallback className="bg-primary/10 text-primary text-xs font-bold">
+                            <div className="flex items-center gap-3 mr-2 bg-primary/5 px-2 md:px-3 py-1.5 rounded-full border border-primary/10">
+                                <Avatar className="h-6 w-6 md:h-8 md:w-8 border border-primary/20">
+                                    <AvatarFallback className="bg-primary/10 text-primary text-[10px] md:text-xs font-bold">
                                         {user.full_name?.substring(0, 2).toUpperCase() || user.username?.substring(0, 2).toUpperCase() || 'OP'}
                                     </AvatarFallback>
                                 </Avatar>
-                                <div className="hidden md:block text-right">
+                                <div className="hidden lg:block text-right">
                                     <p className="text-sm font-bold text-primary leading-none">{user.full_name || user.username}</p>
                                     <p className="text-[10px] text-muted-foreground uppercase tracking-wider">{user.role || 'OPERATIVE'}</p>
                                 </div>
                             </div>
                         )}
 
-
                         <Button 
                             onClick={handleLogout} 
                             variant="outline"
+                            size="sm"
                             className="border-destructive/50 text-destructive hover:bg-destructive/10 hover:text-destructive"
                         >
-                            LOGOUT
+                            <LogOut className="h-5 w-5 md:mr-2" />
+                            <span className="hidden md:inline">LOGOUT</span>
                         </Button>
                     </div>
                 </div>
@@ -248,18 +252,22 @@ export default function DashboardPage() {
                         <h2 className="text-lg font-bold text-primary">ISSUES OVERVIEW</h2>
                          {/* Search within card */}
                          <div className="flex gap-2 w-full md:w-auto">
-                            <form onSubmit={handleSearch} className="flex gap-2 w-full md:w-[300px]">
+                             <form onSubmit={handleSearch} className="flex gap-2 w-full md:w-[300px]">
                                 <Input 
                                     placeholder="SEARCH ISSUES..." 
-                                    className="bg-background/50 border-primary/20 h-9"
+                                    className="bg-background/50 border-primary/20 h-9 w-full min-w-[120px]"
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                 />
-                                <Button type="submit" size="sm" className="bg-primary/20 text-primary hover:bg-primary/30 h-9">
-                                    SEARCH
+                                <Button type="submit" size="sm" className="bg-primary/20 text-primary hover:bg-primary/30 h-9 px-3">
+                                    <span className="hidden sm:inline">SEARCH</span>
+                                    <Search className="h-4 w-4 sm:hidden" />
                                 </Button>
                             </form>
-                            <Button variant="ghost" size="sm" onClick={() => router.push('/dashboard/issues')} className="text-xs text-muted-foreground hover:text-primary h-9">VIEW ALL</Button>
+                            <Button variant="ghost" size="sm" onClick={() => router.push('/dashboard/issues')} className="text-xs text-muted-foreground hover:text-primary h-9 px-2 shrink-0">
+                                <span className="hidden sm:inline">VIEW ALL</span>
+                                <ArrowUpRight className="h-4 w-4 sm:hidden" />
+                            </Button>
                         </div>
                     </div>
                     
