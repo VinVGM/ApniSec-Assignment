@@ -13,13 +13,22 @@ const publicPaths = [
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  const token = request.cookies.get('token')?.value;
 
-  // Check if it's a public path or static asset
+  console.log(`[Middleware] Path: ${pathname}, Token: ${token ? 'Present' : 'Missing'}`);
+
+  // 1. Redirect logged-in users away from auth pages
+  if (token && (pathname === '/login' || pathname === '/register')) {
+    console.log('[Middleware] Authenticated user on auth page - Redirecting to Dashboard');
+    const url = request.nextUrl.clone();
+    url.pathname = '/dashboard';
+    return NextResponse.redirect(url);
+  }
+
+  // 2. Allow public paths and static assets
   if (publicPaths.some(path => pathname === path || pathname.startsWith('/_next') || pathname.startsWith('/static')) || pathname.includes('.')) {
     return NextResponse.next();
   }
-
-  const token = request.cookies.get('token')?.value;
 
   if (!token) {
     const url = request.nextUrl.clone();

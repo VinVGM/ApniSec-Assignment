@@ -12,6 +12,8 @@
 - [x] Implement Auth Service (Business Logic)
 - [x] Implement Auth Handler (API Routes)
 - [x] Implement Auth Middleware
+- [x] Implement Auth Middleware
+- [x] Redirect Logged-in Users from /login & /register
 - [x] Build Frontend Auth Pages
 
 ## 3. User Profile Management
