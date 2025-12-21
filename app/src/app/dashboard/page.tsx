@@ -147,18 +147,31 @@ export default function DashboardPage() {
 
             </header>
             
-            <main className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                 {/* Overview Stats */}
-                <div className="bg-card border border-primary/10 p-6 rounded-lg shadow-sm hover:border-primary/30 transition-all cursor-pointer group" onClick={() => router.push('/dashboard/issues')}>
-                    <h2 className="text-lg font-bold text-primary mb-2 group-hover:text-primary/80">VULNERABILITY TRACKER</h2>
-                    <p className="text-muted-foreground text-sm uppercase tracking-wide">Active Reports</p>
-                    <p className="text-4xl text-primary font-bold mt-4">{issues.length}</p>
-                    <p className="text-xs text-muted-foreground mt-2 group-hover:underline">ACCESS DATABASE &rarr;</p>
-                </div>
+            <main className="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
+                 {/* Left Column: Stats & Threat */}
+                 <div className="flex flex-col gap-6">
+                    {/* Vulnerability Tracker */}
+                    <div className="bg-card border border-primary/10 p-6 rounded-lg shadow-sm hover:border-primary/30 transition-all cursor-pointer group flex-1 flex flex-col justify-between" onClick={() => router.push('/dashboard/issues')}>
+                        <div>
+                            <h2 className="text-lg font-bold text-primary mb-2 group-hover:text-primary/80">VULNERABILITY TRACKER</h2>
+                            <p className="text-muted-foreground text-sm uppercase tracking-wide">Active Reports</p>
+                        </div>
+                        <p className="text-4xl text-primary font-bold mt-4">{issues.length}</p>
+                        <p className="text-xs text-muted-foreground mt-2 group-hover:underline">ACCESS DATABASE &rarr;</p>
+                    </div>
 
-                {/* Top Priority Issues List */}
-                <div className="md:col-span-2 bg-card border border-primary/10 p-6 rounded-lg shadow-sm">
-                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+                    {/* Threat Level */}
+                    <div className="bg-card border border-primary/10 p-6 rounded-lg shadow-sm flex-1 flex flex-col justify-center">
+                        <h2 className="text-lg font-bold text-primary mb-2">THREAT LEVEL</h2>
+                         <p className={`text-4xl font-bold ${issues.some(i => i.priority === 'Critical') ? 'text-red-500 animate-pulse' : 'text-green-500'}`}>
+                             {issues.some(i => i.priority === 'Critical') ? 'CRITICAL' : 'LOW'}
+                         </p>
+                    </div>
+                 </div>
+
+                {/* Right Column: Priority Intel */}
+                <div className="md:col-span-2 bg-card border border-primary/10 p-6 rounded-lg shadow-sm h-full flex flex-col">
+                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4 shrink-0">
                         <h2 className="text-lg font-bold text-primary">PRIORITY INTEL</h2>
                          {/* Search within card */}
                          <div className="flex gap-2 w-full md:w-auto">
@@ -177,11 +190,11 @@ export default function DashboardPage() {
                         </div>
                     </div>
                     
-                    <div className="space-y-3">
+                    <div className="space-y-3 overflow-y-auto flex-grow h-[300px] md:h-auto pr-2">
                         {issues.length === 0 ? (
                             <p className="text-muted-foreground text-sm">No active threats detected.</p>
                         ) : (
-                            issues.slice(0, 5).map(issue => (
+                            issues.slice(0, 10).map(issue => (
                                 <div key={issue.id} className="flex items-center justify-between p-3 bg-background/50 rounded border border-primary/5 hover:border-primary/20 transition-all cursor-pointer" onClick={() => router.push('/dashboard/issues')}>
                                     <div className="flex items-center gap-3 overflow-hidden">
                                         <Badge className={`${getPriorityColor(issue.priority)} text-white border-0 w-20 justify-center`}>{issue.priority}</Badge>
@@ -192,13 +205,6 @@ export default function DashboardPage() {
                             ))
                         )}
                     </div>
-                </div>
-
-                 <div className="bg-card border border-primary/10 p-6 rounded-lg shadow-sm">
-                    <h2 className="text-lg font-bold text-primary mb-2">THREAT LEVEL</h2>
-                     <p className={`text-4xl font-bold ${issues.some(i => i.priority === 'Critical') ? 'text-red-500 animate-pulse' : 'text-green-500'}`}>
-                         {issues.some(i => i.priority === 'Critical') ? 'CRITICAL' : 'LOW'}
-                     </p>
                 </div>
             </main>
 

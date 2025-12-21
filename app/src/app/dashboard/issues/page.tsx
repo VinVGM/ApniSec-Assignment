@@ -1,20 +1,22 @@
-"use client";
+    "use client";
 
-import { useEffect, useState, useMemo } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { useRouter, useSearchParams } from "next/navigation";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
-import { Badge } from "@/components/ui/badge";
+    import { useEffect, useState, useMemo } from "react";
+    import { ArrowLeft } from "lucide-react";
+    import Link from "next/link";
+    import { Button } from "@/components/ui/button";
+    import { Input } from "@/components/ui/input";
+    import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+    import { Label } from "@/components/ui/label";
+    import { useRouter, useSearchParams } from "next/navigation";
+    import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+    import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+    import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
+    import { Badge } from "@/components/ui/badge";
 
-interface Issue {
-  id: string;
-  type: string;
-  title: string;
+    interface Issue {
+    id: string;
+    type: string;
+    title: string;
   description: string;
   priority: string;
   status: string;
@@ -155,10 +157,19 @@ export default function IssuesPage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground p-8 font-mono">
+
+
        <header className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 border-b border-primary/20 pb-4 gap-4">
-            <div>
-                 <h1 className="text-3xl font-bold text-primary tracking-tight">ISSUE TRACKER</h1>
-                 <p className="text-muted-foreground text-xs uppercase tracking-widest mt-1">Vulnerability Management System</p>
+            <div className="flex items-center gap-4">
+                 <Link href="/dashboard">
+                    <Button variant="ghost" size="icon" className="h-10 w-10 border border-primary/20 hover:bg-primary/10 hover:text-primary">
+                        <ArrowLeft className="h-6 w-6" />
+                    </Button>
+                 </Link>
+                 <div>
+                    <h1 className="text-3xl font-bold text-primary tracking-tight">ISSUE TRACKER</h1>
+                    <p className="text-muted-foreground text-xs uppercase tracking-widest mt-1">Vulnerability Management System</p>
+                 </div>
             </div>
             
             <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto">
