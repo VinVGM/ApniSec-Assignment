@@ -32,7 +32,9 @@ const DEFAULT_FORM_DATA = {
     status: "Open"
 };
 
-export default function IssuesPage() {
+import { Suspense } from "react";
+
+function IssuesContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const initialSearch = searchParams.get('q') || '';
@@ -338,5 +340,13 @@ export default function IssuesPage() {
            </div>
        )}
     </div>
+  );
+}
+
+export default function IssuesPage() {
+  return (
+    <Suspense fallback={<div className="text-center text-primary animate-pulse mt-10">Initializing Tracker...</div>}>
+      <IssuesContent />
+    </Suspense>
   );
 }
