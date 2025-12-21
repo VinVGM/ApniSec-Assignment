@@ -35,6 +35,7 @@ export default function RegisterPage() {
         throw new Error(data.error || "Registration failed");
       }
 
+      router.refresh();
       router.push("/dashboard");
     } catch (err: any) {
       setError(err.message);
