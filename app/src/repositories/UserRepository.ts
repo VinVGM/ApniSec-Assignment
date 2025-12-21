@@ -29,6 +29,12 @@ export class UserRepository {
   }
 
   async update(id: string, data: Partial<User>): Promise<User | null> {
+    // Map 'location' to 'sector' for DB column match
+    if (data.location !== undefined) {
+        (data as any).sector = data.location;
+        delete data.location;
+    }
+
     const fields = Object.keys(data);
     if (fields.length === 0) return this.findById(id);
 

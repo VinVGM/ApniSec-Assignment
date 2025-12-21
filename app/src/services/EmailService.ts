@@ -21,7 +21,7 @@ export class EmailService {
       const { data, error } = await this.resend.emails.send({
         from: `ApniSec <${this.fromEmail}>`,
         to: [to],
-        subject: 'Welcome to ApniSec Command Center',
+        subject: 'Welcome to ApniSec Dashboard',
         html: getWelcomeTemplate(name),
       });
 
@@ -43,7 +43,7 @@ export class EmailService {
 
     try {
       const { data, error } = await this.resend.emails.send({
-        from: `ApniSec Intel <${this.fromEmail}>`,
+        from: `ApniSec Dashboard <${this.fromEmail}>`,
         to: [to],
         subject: `[ALERT] New Issue: ${issueTitle}`,
         html: getIssueCreatedTemplate(userName, issueTitle, issueType),

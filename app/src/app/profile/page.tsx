@@ -101,19 +101,19 @@ export default function ProfilePage() {
                 </div>
                 <div className="space-y-2">
                     <Label htmlFor="role" className="text-primary/70 text-xs uppercase">Designation</Label>
-                    <Input id="role" value={profile?.role || ""} onChange={handleChange} className="bg-background/50 border-primary/30 focus-visible:ring-primary/50" />
+                    <Input required id="role" value={profile?.role || ""} onChange={handleChange} className="bg-background/50 border-primary/30 focus-visible:ring-primary/50" />
                 </div>
                 <div className="space-y-2">
                     <Label htmlFor="full_name" className="text-primary/70 text-xs uppercase">Full Name</Label>
-                    <Input id="full_name" value={profile?.full_name || ""} onChange={handleChange} className="bg-background/50 border-primary/30 focus-visible:ring-primary/50" />
+                    <Input required id="full_name" value={profile?.full_name || ""} onChange={handleChange} className="bg-background/50 border-primary/30 focus-visible:ring-primary/50" />
                 </div>
                 <div className="space-y-2">
                     <Label htmlFor="location" className="text-primary/70 text-xs uppercase">Current Location</Label>
-                    <Input id="location" value={profile?.location || ""} onChange={handleChange} className="bg-background/50 border-primary/30 focus-visible:ring-primary/50" />
+                    <Input required id="location" value={profile?.location || ""} onChange={handleChange} className="bg-background/50 border-primary/30 focus-visible:ring-primary/50" />
                 </div>
                 <div className="space-y-2">
                     <Label htmlFor="status" className="text-primary/70 text-xs uppercase">Operational Status</Label>
-                    <Input id="status" value={profile?.status || ""} onChange={handleChange} className="bg-background/50 border-primary/30 focus-visible:ring-primary/50" />
+                    <Input required id="status" value={profile?.status || ""} onChange={handleChange} className="bg-background/50 border-primary/30 focus-visible:ring-primary/50" />
                 </div>
                  <div className="space-y-2 md:col-span-2">
                     <Label htmlFor="bio" className="text-primary/70 text-xs uppercase">Bio</Label>

@@ -15,12 +15,25 @@ export const getWelcomeTemplate = (name: string) => `
 <body>
     <div class="container">
         <div class="header">
-            <div class="logo">APNISEC</div>
+            <div class="logo">
+                <table cellpadding="0" cellspacing="0" border="0">
+                    <tr>
+                        <td style="vertical-align: middle; padding-right: 10px;">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00ff00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>
+                            </svg>
+                        </td>
+                        <td style="vertical-align: middle; font-family: 'Courier New', monospace; font-size: 24px; font-weight: bold; color: #000000ff;">
+                            APNI<span style="color: #00ff00;">SEC</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
         <div class="content">
-            <h1>WELCOME AGENT ${name.toUpperCase()}</h1>
-            <p>Your secure channel has been established.</p>
-            <p>You now have access to the ApniSec command center. Use your dashboard to report vulnerabilities, track threats, and collaborate with the community.</p>
+            <h1>WELCOME ${name}</h1>
+            <p>Your account has been created.</p>
+            <p>You now have access to the Apni-Sec Dashboard. Use your dashboard to report vulnerabilities, track threats, and collaborate with the team.</p>
             <a href="${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/dashboard" class="button">ACCESS DASHBOARD</a>
         </div>
         <div class="footer">
@@ -53,11 +66,24 @@ export const getIssueCreatedTemplate = (userName: string, issueTitle: string, is
 <body>
     <div class="container">
         <div class="header">
-            <div class="logo">APNISEC // ALERT</div>
+            <div class="logo">
+                <table cellpadding="0" cellspacing="0" border="0">
+                    <tr>
+                        <td style="vertical-align: middle; padding-right: 10px;">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00ff00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>
+                            </svg>
+                        </td>
+                        <td style="vertical-align: middle; font-family: 'Courier New', monospace; font-size: 24px; font-weight: bold; color: #000000ff;">
+                            APNI<span style="color: #00ff00;">SEC</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
         <div class="content">
-            <h1>NEW VULNERABILITY REPORTED</h1>
-            <p>Agent <strong>${userName}</strong> has filed a new report.</p>
+            <h1>NEW ISSUE REPORTED</h1>
+            <p><strong>${name}</strong> has filed a new report.</p>
             
             <table class="table">
                 <tr>
@@ -101,12 +127,25 @@ export const getProfileUpdatedTemplate = (name: string) => `
 <body>
     <div class="container">
         <div class="header">
-            <div class="logo">APNISEC // SYSTEM NOTIFICATION</div>
+            <div class="logo">
+                <table cellpadding="0" cellspacing="0" border="0">
+                    <tr>
+                        <td style="vertical-align: middle; padding-right: 10px;">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00ff00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>
+                            </svg>
+                        </td>
+                        <td style="vertical-align: middle; font-family: 'Courier New', monospace; font-size: 24px; font-weight: bold; color: #000000ff;">
+                            APNI<span style="color: #00ff00;">SEC</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
         <div class="content">
             <h1>PROFILE UPDATED</h1>
-            <p>Attention Agent <strong>${name.toUpperCase()}</strong>,</p>
-            <p>Your personnel file has been modified. If you did not authorize this change, please contact security immediately.</p>
+            <p>Attention <strong>${name}</strong>,</p>
+            <p>Your profile has been modified. If you did not authorize this change, please contact security immediately.</p>
             
             <a href="${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/profile" class="button">REVIEW PROFILE</a>
         </div>
