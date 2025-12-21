@@ -3,18 +3,38 @@ import { IssueValidator } from '@/validators/IssueValidator';
 import { Issue } from '@/models/Issue';
 import { NotFoundError } from '@/utils/AppError';
 
+import { EmailService } from './EmailService';
+import { UserRepository } from '@/repositories/UserRepository';
+
 export class IssueService {
   private repository: IssueRepository;
   private validator: IssueValidator;
+  private emailService: EmailService;
+  private userRepository: UserRepository;
 
   constructor() {
     this.repository = new IssueRepository();
     this.validator = new IssueValidator();
+    this.emailService = new EmailService();
+    this.userRepository = new UserRepository();
   }
 
   async createIssue(userId: string, data: any): Promise<Issue> {
     const validated = this.validator.validateCreate(data);
-    return this.repository.create({ ...validated, user_id: userId } as any);
+    const issue = await this.repository.create({ ...validated, user_id: userId } as any);
+
+    // Send Notification Email
+    try {
+        const user = await this.userRepository.findById(userId);
+        if (user && user.email) {
+            const userName = user.full_name || 'Agent';
+            await this.emailService.sendIssueCreatedNotification(user.email, userName, issue.title, issue.type);
+        }
+    } catch(e) {
+        console.error("Failed to send issue email", e);
+    }
+
+    return issue;
   }
 
   async getIssues(userId: string, filterType?: string, searchQuery?: string): Promise<Issue[]> {

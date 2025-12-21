@@ -5,13 +5,17 @@ import { User } from '../models/User';
 import { AuthValidator } from '@/validators/AuthValidator';
 import { BadRequestError, UnauthorizedError } from '@/utils/AppError';
 
+import { EmailService } from './EmailService';
+
 export class AuthService {
   private userRepository: UserRepository;
   private validator: AuthValidator;
+  private emailService: EmailService;
 
   constructor() {
     this.userRepository = new UserRepository();
     this.validator = new AuthValidator();
+    this.emailService = new EmailService();
   }
 
   async register(data: any) {
@@ -29,10 +33,20 @@ export class AuthService {
     const passwordHash = await bcrypt.hash(validated.password, salt);
 
     // Create user
-    const user = await this.userRepository.create(validated.email, passwordHash);
+    const user = await this.userRepository.create({
+      email: validated.email,
+      passwordHash,
+      fullName: validated.full_name,
+      role: validated.designation,
+      sector: validated.sector
+    });
 
     // Generate Token
     const token = this.generateToken(user);
+    
+    // Send Welcome Email
+    const name = user.full_name || user.email.split('@')[0];
+    await this.emailService.sendWelcomeEmail(user.email, name);
 
     return { user: this.sanitizeUser(user), token };
   }

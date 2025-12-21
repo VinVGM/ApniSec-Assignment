@@ -21,8 +21,8 @@ interface Post {
     content: string;
     created_at: string;
     author: {
-        full_name: string;
         role: string;
+        full_name: string;
     };
     like_count: number;
     is_liked: boolean;

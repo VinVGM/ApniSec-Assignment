@@ -48,9 +48,9 @@
 - [ ] Apply to API routes
 
 ## 4. Email Integration (Resend)
-- [ ] Setup Resend API
-- [ ] Create Email Service Class
-- [ ] Implement email sending validation/notification
+- [x] Setup Resend API
+- [x] Create Email Service Class
+- [x] Implement email sending validation/notification
 
 ## 5. SEO Optimization
 - [ ] Configure Metadata API
@@ -62,7 +62,12 @@
 - [ ] Full system walk-through
 - [ ] Code review for OOP strictness
 
-## 8. Landing Page
+## 8. Registration Flow Enhancement
+- [x] Database Migration (Sector)
+- [x] Backend Updates (User Model, Service, Validator)
+- [x] Frontend Updates (Registration Form)
+
+## 9. Landing Page
 - [x] Design Hero Section
 - [x] Build Services Grid (VAPT, Cloud, etc.)
 - [x] Implement Navbar & Footer

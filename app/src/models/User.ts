@@ -6,6 +6,7 @@ export interface User {
   role?: string;
   bio?: string;
   location?: string;
+  sector?: string;
   status?: string;
   created_at: Date;
   updated_at: Date;

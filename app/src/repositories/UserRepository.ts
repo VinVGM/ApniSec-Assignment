@@ -14,10 +14,10 @@ export class UserRepository {
     return this.mapRowToUser(result.rows[0]);
   }
 
-  async create(email: string, passwordHash: string): Promise<User> {
+  async create(userData: { email: string, passwordHash: string, fullName: string, role: string, sector: string }): Promise<User> {
     const result = await this.db.query(
-      'INSERT INTO users (email, password, updated_at) VALUES ($1, $2, NOW()) RETURNING *',
-      [email, passwordHash]
+      'INSERT INTO users (email, password, full_name, role, sector, updated_at) VALUES ($1, $2, $3, $4, $5, NOW()) RETURNING *',
+      [userData.email, userData.passwordHash, userData.fullName, userData.role, userData.sector]
     );
     return this.mapRowToUser(result.rows[0]);
   }
@@ -56,7 +56,7 @@ export class UserRepository {
       full_name: row.full_name,
       role: row.role,
       bio: row.bio,
-      location: row.location,
+      location: row.sector,
       status: row.status,
       created_at: row.created_at,
       updated_at: row.updated_at,

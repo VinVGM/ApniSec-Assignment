@@ -19,14 +19,20 @@ import fs from 'fs';
 
 async function runMigrations() {
   const db = Database.getInstance();
-  
-  try {
-    const migrationPath = path.join(process.cwd(), 'src/lib/db/migrations/004_create_posts_table.sql');
+
+  async function runMigration(migrationFileName: string) {
+    const migrationPath = path.join(process.cwd(), 'src/lib/db/migrations', migrationFileName);
     const sql = fs.readFileSync(migrationPath, 'utf8');
     
-    console.log('Running migration: 004_create_posts_table.sql');
+    console.log(`Running migration: ${migrationFileName}`);
     await db.query(sql);
-    console.log('Migration completed successfully.');
+    console.log(`Migration ${migrationFileName} completed.`);
+  }
+  
+  try {
+    await runMigration('004_create_posts_table.sql');
+    await runMigration('005_add_sector_to_users.sql');
+    console.log('All migrations completed successfully');
   } catch (error) {
     console.error('Migration failed:', error);
   } finally {

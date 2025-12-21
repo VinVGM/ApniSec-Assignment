@@ -11,6 +11,9 @@ export default function RegisterPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [full_name, setFullName] = useState("");
+  const [designation, setDesignation] = useState("");
+  const [sector, setSector] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -23,20 +26,18 @@ export default function RegisterPage() {
       const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email, password, full_name, designation, sector }),
       });
 
-      if (res.ok) {
-        // Auto login or redirect to login (Auto login logic handled by cookie set in register api)
-        router.push("/dashboard");
-      } else {
-        const data = await res.json();
-        setError(data.error || "Registration failed");
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Registration failed");
       }
-    } catch (err) {
-      setError("An unexpected error occurred");
-    } finally {
-      setLoading(false);
+
+      router.push("/dashboard");
+    } catch (err: any) {
+      setError(err.message);
     }
   };
 
@@ -57,6 +58,46 @@ export default function RegisterPage() {
         <CardContent>
           <form onSubmit={handleRegister} className="space-y-4">
             <div className="space-y-2">
+              <Label htmlFor="full_name" className="font-mono text-primary/80">Full Name</Label>
+              <Input
+                id="full_name"
+                type="text"
+                placeholder="Agent Name"
+                value={full_name}
+                onChange={(e) => setFullName(e.target.value)}
+                required
+                className="bg-background/50 border-primary/30 focus-visible:ring-primary/50 font-mono placeholder:text-muted-foreground/50"
+              />
+            </div>
+            
+            <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                <Label htmlFor="designation" className="font-mono text-primary/80">Designation</Label>
+                <Input
+                    id="designation"
+                    type="text"
+                    placeholder="Role"
+                    value={designation}
+                    onChange={(e) => setDesignation(e.target.value)}
+                    required
+                    className="bg-background/50 border-primary/30 focus-visible:ring-primary/50 font-mono placeholder:text-muted-foreground/50"
+                />
+                </div>
+                <div className="space-y-2">
+                <Label htmlFor="sector" className="font-mono text-primary/80">Sector</Label>
+                <Input
+                    id="sector"
+                    type="text"
+                    placeholder="Unit/Dept"
+                    value={sector}
+                    onChange={(e) => setSector(e.target.value)}
+                    required
+                    className="bg-background/50 border-primary/30 focus-visible:ring-primary/50 font-mono placeholder:text-muted-foreground/50"
+                />
+                </div>
+            </div>
+
+            <div className="space-y-2">
               <Label htmlFor="email" className="font-mono text-primary/80">User Identifier</Label>
               <Input
                 id="email"
@@ -76,7 +117,6 @@ export default function RegisterPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                minLength={8}
                 className="bg-background/50 border-primary/30 focus-visible:ring-primary/50 font-mono"
               />
             </div>

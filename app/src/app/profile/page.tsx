@@ -104,7 +104,7 @@ export default function ProfilePage() {
                     <Input id="role" value={profile?.role || ""} onChange={handleChange} className="bg-background/50 border-primary/30 focus-visible:ring-primary/50" />
                 </div>
                 <div className="space-y-2">
-                    <Label htmlFor="full_name" className="text-primary/70 text-xs uppercase">Full Designation</Label>
+                    <Label htmlFor="full_name" className="text-primary/70 text-xs uppercase">Full Name</Label>
                     <Input id="full_name" value={profile?.full_name || ""} onChange={handleChange} className="bg-background/50 border-primary/30 focus-visible:ring-primary/50" />
                 </div>
                 <div className="space-y-2">
