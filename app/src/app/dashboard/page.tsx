@@ -56,6 +56,7 @@ export default function DashboardPage() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [postContent, setPostContent] = useState("");
   const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
   
   // Modal State
   const [selectedIssue, setSelectedIssue] = useState<Issue | null>(null);
@@ -120,6 +121,7 @@ export default function DashboardPage() {
             // Sort by priority desc
             const sorted = data.sort((a, b) => (PRIORITY_MAP[b.priority] || 0) - (PRIORITY_MAP[a.priority] || 0));
             setIssues(sorted);
+            setLoading(false);
         })
         .catch(() => setIssues([]));
   }, []);
@@ -262,8 +264,10 @@ export default function DashboardPage() {
                     </div>
                     
                     <div className="space-y-3 overflow-y-auto flex-grow h-[300px] md:h-auto pr-2">
-                        {issues.length === 0 ? (
-                            <p className="text-muted-foreground text-sm">No active threats detected.</p>
+                        {loading ? (
+                            <p className="text-muted-foreground text-sm">Loading issues...</p>
+                        ) : issues.length === 0 ? (
+                            <p className="text-muted-foreground text-sm">No issues found.</p>
                         ) : (
                             issues.slice(0, 10).map(issue => (
                                 <div 
@@ -311,9 +315,14 @@ export default function DashboardPage() {
                     {/* Feed List */}
                      <ScrollArea className="h-[400px] w-full pr-4">
                         <div className="space-y-6">
-                            {posts.length === 0 ? (
+                            {loading ? (
+                            <p className="text-muted-foreground text-sm">Loading posts...</p>
+                            ) 
+                            : 
+                            posts.length === 0 ? (
                                 <p className="text-muted-foreground text-center py-8">No community updates yet.</p>
-                            ) : (
+                            ) 
+                            : (
                                 posts.map(post => (
                                     <div key={post.id} className="flex gap-4 border-b border-primary/10 pb-6 last:border-0 animation-in fade-in slide-in-from-bottom-2 duration-500">
                                          <Avatar className="mt-1">
