@@ -69,7 +69,9 @@ export default function LoginPage() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password" className="font-mono text-primary/80">Password</Label>
+              <div className="flex justify-between items-center">
+                <Label htmlFor="password" className="font-mono text-primary/80">Password</Label>
+              </div>
               <Input
                 id="password"
                 type="password"
@@ -78,6 +80,9 @@ export default function LoginPage() {
                 required
                 className="bg-background/50 border-primary/30 focus-visible:ring-primary/50 font-mono"
               />
+              <div className="flex justify-end items-center">
+                <a href="/forgot-password" className="text-xs text-primary/60 hover:text-primary hover:underline transition-colors font-mono">FORGOT PASSWORD?</a>
+              </div>
             </div>
             {error && (
               <div className="text-destructive text-sm text-center font-bold font-mono p-2 border border-destructive/20 bg-destructive/10">

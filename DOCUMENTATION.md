@@ -77,12 +77,22 @@ The backend follows a strict **Object-Oriented Programming (OOP)** architecture 
     -   **Reverse Loading Bar**: A visual timer bar that shrinks to indicate auto-dismissal time.
     -   **Feedback**: Color-coded (Green/Red) system for Success and Error states.
 
+### 3.9 Password Reset Flow
+-   **Method**: Token-based verification via Email (Resend).
+-   **Security**:
+    -   Tokens are cryptographically random UUIDs.
+    -   Tokens expire in 15 minutes.
+    -   Tokens are invalidated immediately after use.
+    -   API always returns 200 OK to prevent email enumeration.
+
 ## 4. API Reference
 
 ### Auth
 -   `POST /api/auth/register`: Create new account.
 -   `POST /api/auth/login`: Authenticate and set cookie.
 -   `POST /api/auth/logout`: Clear session cookie.
+-   `POST /api/auth/forgot-password`: Request reset link.
+-   `POST /api/auth/reset-password`: Reset password with token.
 
 ### Users
 -   `GET /api/users/profile`: Get current user details.
@@ -107,6 +117,8 @@ The backend follows a strict **Object-Oriented Programming (OOP)** architecture 
 -   `password_hash`
 -   `full_name`, `role`, `sector`, `bio`
 -   `created_at`
+-   `reset_token` (Text, Nullable)
+-   `reset_token_expires` (Timestamp, Nullable)
 
 ### `issues`
 -   `id` (UUID, PK)

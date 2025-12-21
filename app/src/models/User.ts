@@ -8,6 +8,8 @@ export interface User {
   location?: string;
   sector?: string;
   status?: string;
+  reset_token?: string;
+  reset_token_expires?: Date;
   created_at: Date;
   updated_at: Date;
 }

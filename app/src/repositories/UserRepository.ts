@@ -54,6 +54,33 @@ export class UserRepository {
     return this.mapRowToUser(result.rows[0]);
   }
 
+  async findByResetToken(token: string): Promise<User | null> {
+    const result = await this.db.query('SELECT * FROM users WHERE reset_token = $1', [token]);
+    if (result.rows.length === 0) return null;
+    return this.mapRowToUser(result.rows[0]);
+  }
+
+  async saveResetToken(email: string, token: string, expires: Date): Promise<void> {
+    await this.db.query(
+      'UPDATE users SET reset_token = $1, reset_token_expires = $2 WHERE email = $3',
+      [token, expires, email]
+    );
+  }
+
+  async clearResetToken(id: string): Promise<void> {
+    await this.db.query(
+      'UPDATE users SET reset_token = NULL, reset_token_expires = NULL WHERE id = $1',
+      [id]
+    );
+  }
+
+  async updatePassword(id: string, passwordHash: string): Promise<void> {
+     await this.db.query(
+        'UPDATE users SET password = $1, updated_at = NOW() WHERE id = $2',
+        [passwordHash, id]
+     );
+  }
+
   private mapRowToUser(row: any): User {
     return {
       id: row.id,
@@ -64,6 +91,8 @@ export class UserRepository {
       bio: row.bio,
       location: row.sector,
       status: row.status,
+      reset_token: row.reset_token,
+      reset_token_expires: row.reset_token_expires,
       created_at: row.created_at,
       updated_at: row.updated_at,
     };

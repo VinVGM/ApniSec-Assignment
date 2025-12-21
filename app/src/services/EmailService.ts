@@ -77,4 +77,27 @@ export class EmailService {
       console.error('Email Service Error:', error);
     }
   }
+
+  async sendPasswordResetEmail(to: string, resetLink: string, name: string) {
+    if (!process.env.RESEND_API_KEY) return;
+    
+    // Lazy import to avoid circular dependencies if any, though here it's fine
+    const { getResetPasswordTemplate } = await import('@/utils/emailTemplates');
+
+    try {
+      const { data, error } = await this.resend.emails.send({
+        from: `ApniSec Security <${this.fromEmail}>`,
+        to: [to],
+        subject: '[ACTION REQUIRED] Reset Your Credentials',
+        html: getResetPasswordTemplate(name, resetLink),
+      });
+
+      if (error) {
+        console.error('Error sending reset email:', error);
+      }
+      return data;
+    } catch (error) {
+      console.error('Email Service Error:', error);
+    }
+  }
 }

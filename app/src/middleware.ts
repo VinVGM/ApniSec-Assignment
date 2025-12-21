@@ -6,8 +6,12 @@ import { decode } from 'jsonwebtoken';
 const publicPaths = [
     '/login', 
     '/register', 
+    '/forgot-password',
+    '/reset-password',
     '/api/auth/login', 
     '/api/auth/register',
+    '/api/auth/forgot-password',
+    '/api/auth/reset-password',
     '/' // Landing page
 ];
 
@@ -18,7 +22,12 @@ export function middleware(request: NextRequest) {
   console.log(`[Middleware] Path: ${pathname}, Token: ${token ? 'Present' : 'Missing'}`);
 
   // 1. Redirect logged-in users away from auth pages
-  if (token && (pathname === '/login' || pathname === '/register')) {
+  if (token && (
+      pathname === '/login' || 
+      pathname === '/register' || 
+      pathname === '/forgot-password' || 
+      pathname === '/reset-password'
+  )) {
     console.log('[Middleware] Authenticated user on auth page - Redirecting to Dashboard');
     const url = request.nextUrl.clone();
     url.pathname = '/dashboard';
