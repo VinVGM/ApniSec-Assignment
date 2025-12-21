@@ -39,6 +39,9 @@ export const metadata: Metadata = {
     creator: "@apnisec",
     images: ["/opengraph.png"],
   },
+  icons: {
+    icon: "/logo.svg",
+  },
 };
 
 export default function RootLayout({
