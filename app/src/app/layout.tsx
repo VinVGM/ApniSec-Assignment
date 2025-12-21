@@ -14,8 +14,22 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Apni Sec Dashboard",
-  description: "Check issues here",
+  title: "ApniSec - Elite Cybersecurity Solutions",
+  description: "Virtual CISO, VAPT, and Compliance services for the modern enterprise. Build your own in-house security team.",
+  openGraph: {
+    title: "ApniSec - Elite Cybersecurity Solutions",
+    description: "Virtual CISO, VAPT, and Compliance services for the modern enterprise.",
+    url: "https://apnisec.com",
+    siteName: "ApniSec",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "ApniSec - Elite Cybersecurity Solutions",
+    description: "Virtual CISO, VAPT, and Compliance services for the modern enterprise.",
+    creator: "@apnisec",
+  },
 };
 
 export default function RootLayout({

@@ -57,7 +57,7 @@
 - [x] Implement email sending validation/notification
 
 ## 5. SEO Optimization
-- [ ] Configure Metadata API
+- [x] Configure Metadata API
 - [ ] Implement Sitemap & Robots.txt
 - [ ] Optimize initial page load & semantic HTML
 
