@@ -1,4 +1,4 @@
-# Apni Sec Dashboard
+# CYBER-GM Dashboard
 
 A secure, modern, and responsive dashboard for cybersecurity operations, built with Next.js 15.
 

@@ -47,7 +47,7 @@ export default function ForgotPasswordPage() {
         <CardHeader>
           <div className="flex items-center gap-2 mb-2">
              <ShieldAlert className="h-8 w-8 text-primary" />
-             <span className="text-xl font-bold tracking-tighter text-primary">APNI<span className="text-foreground">SEC</span></span>
+             <span className="text-xl font-bold tracking-tighter text-primary">CYBER<span className="text-foreground">-GM</span></span>
           </div>
           <CardTitle className="text-xl text-primary font-bold">RECOVER ACCESS</CardTitle>
           <CardDescription className="text-muted-foreground">Enter your secure comms channel (email) to receive a reset link.</CardDescription>
@@ -75,7 +75,7 @@ export default function ForgotPasswordPage() {
                 <Input
                   id="email"
                   type="email"
-                  placeholder="agent@apnisec.com"
+                  placeholder="agent@cyber-gm.com"
                   className="bg-background/50 border-primary/30 focus-visible:ring-primary/50"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}

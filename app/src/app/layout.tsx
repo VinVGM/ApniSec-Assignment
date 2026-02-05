@@ -14,13 +14,13 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ApniSec - Elite Cybersecurity Solutions",
+  title: "CYBER-GM - Elite Cybersecurity Solutions",
   description: "Virtual CISO, VAPT, and Compliance services for the modern enterprise. Build your own in-house security team.",
   openGraph: {
-    title: "ApniSec - Elite Cybersecurity Solutions",
+    title: "CYBER-GM - Elite Cybersecurity Solutions",
     description: "Virtual CISO, VAPT, and Compliance services for the modern enterprise.",
-    url: "https://apnisec.com",
-    siteName: "ApniSec",
+    url: "https://cyber-gm.com",
+    siteName: "CYBER-GM",
     locale: "en_US",
     type: "website",
     images: [
@@ -28,15 +28,15 @@ export const metadata: Metadata = {
         url: "/opengraph.png",
         width: 1200,
         height: 630,
-        alt: "ApniSec - Elite Cybersecurity Solutions",
+        alt: "CYBER-GM - Elite Cybersecurity Solutions",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "ApniSec - Elite Cybersecurity Solutions",
+    title: "CYBER-GM - Elite Cybersecurity Solutions",
     description: "Virtual CISO, VAPT, and Compliance services for the modern enterprise.",
-    creator: "@apnisec",
+    creator: "@cybergm",
     images: ["/opengraph.png"],
   },
   icons: {

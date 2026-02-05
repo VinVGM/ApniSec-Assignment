@@ -1,8 +1,8 @@
-# ApniSec Dashboard - System Documentation
+# CYBER-GM Dashboard - System Documentation
 
 ## 1. System Overview
 
-ApniSec Dashboard is a secure, role-based cybersecurity operations platform designed to track vulnerabilities, manage intelligence feeds, and facilitate team collaboration. It is built with a focus on **security**, **performance**, and **aesthetic excellence**.
+CYBER-GM Dashboard is a secure, role-based cybersecurity operations platform designed to track vulnerabilities, manage intelligence feeds, and facilitate team collaboration. It is built with a focus on **security**, **performance**, and **aesthetic excellence**.
 
 ## 2. Architecture & Design Patterns
 

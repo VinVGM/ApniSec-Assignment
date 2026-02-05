@@ -24,7 +24,7 @@ export const getWelcomeTemplate = (name: string) => `
                             </svg>
                         </td>
                         <td style="vertical-align: middle; font-family: 'Courier New', monospace; font-size: 24px; font-weight: bold; color: #000000ff;">
-                            APNI<span style="color: #00ff00;">SEC</span>
+                            CYBER<span style="color: #00ff00;">-GM</span>
                         </td>
                     </tr>
                 </table>
@@ -33,12 +33,12 @@ export const getWelcomeTemplate = (name: string) => `
         <div class="content">
             <h1>WELCOME ${name}</h1>
             <p>Your account has been created.</p>
-            <p>You now have access to the Apni-Sec Dashboard. Use your dashboard to report vulnerabilities, track threats, and collaborate with the team.</p>
+            <p>You now have access to the CYBER-GM Dashboard. Use your dashboard to report vulnerabilities, track threats, and collaborate with the team.</p>
             <a href="${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/dashboard" class="button">ACCESS DASHBOARD</a>
         </div>
         <div class="footer">
             <p>SECURE TRANSMISSION // END OF LINE</p>
-            <p>&copy; ${new Date().getFullYear()} ApniSec Inc.</p>
+            <p>&copy; ${new Date().getFullYear()} CYBER-GM Inc.</p>
         </div>
     </div>
 </body>
@@ -75,7 +75,7 @@ export const getIssueCreatedTemplate = (userName: string, issueTitle: string, is
                             </svg>
                         </td>
                         <td style="vertical-align: middle; font-family: 'Courier New', monospace; font-size: 24px; font-weight: bold; color: #000000ff;">
-                            APNI<span style="color: #00ff00;">SEC</span>
+                            CYBER<span style="color: #00ff00;">-GM</span>
                         </td>
                     </tr>
                 </table>
@@ -136,7 +136,7 @@ export const getProfileUpdatedTemplate = (name: string) => `
                             </svg>
                         </td>
                         <td style="vertical-align: middle; font-family: 'Courier New', monospace; font-size: 24px; font-weight: bold; color: #000000ff;">
-                            APNI<span style="color: #00ff00;">SEC</span>
+                            CYBER<span style="color: #00ff00;">-GM</span>
                         </td>
                     </tr>
                 </table>
@@ -183,7 +183,7 @@ export const getResetPasswordTemplate = (name: string, resetLink: string) => `
                             </svg>
                         </td>
                         <td style="vertical-align: middle; font-family: 'Courier New', monospace; font-size: 24px; font-weight: bold; color: #000000ff;">
-                            APNI<span style="color: #00ff00;">SEC</span>
+                            CYBER<span style="color: #00ff00;">-GM</span>
                         </td>
                     </tr>
                 </table>

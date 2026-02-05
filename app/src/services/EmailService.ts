@@ -19,9 +19,9 @@ export class EmailService {
 
     try {
       const { data, error } = await this.resend.emails.send({
-        from: `ApniSec <${this.fromEmail}>`,
+        from: `CYBER-GM <${this.fromEmail}>`,
         to: [to],
-        subject: 'Welcome to ApniSec Dashboard',
+        subject: 'Welcome to CYBER-GM Dashboard',
         html: getWelcomeTemplate(name),
       });
 
@@ -43,7 +43,7 @@ export class EmailService {
 
     try {
       const { data, error } = await this.resend.emails.send({
-        from: `ApniSec Dashboard <${this.fromEmail}>`,
+        from: `CYBER-GM Dashboard <${this.fromEmail}>`,
         to: [to],
         subject: `[ALERT] New Issue: ${issueTitle}`,
         html: getIssueCreatedTemplate(userName, issueTitle, issueType),
@@ -63,7 +63,7 @@ export class EmailService {
 
     try {
       const { data, error } = await this.resend.emails.send({
-        from: `ApniSec Security <${this.fromEmail}>`,
+        from: `CYBER-GM Security <${this.fromEmail}>`,
         to: [to],
         subject: '[SECURITY] Profile Information Updated',
         html: getProfileUpdatedTemplate(name),
@@ -86,7 +86,7 @@ export class EmailService {
 
     try {
       const { data, error } = await this.resend.emails.send({
-        from: `ApniSec Security <${this.fromEmail}>`,
+        from: `CYBER-GM Security <${this.fromEmail}>`,
         to: [to],
         subject: '[ACTION REQUIRED] Reset Your Credentials',
         html: getResetPasswordTemplate(name, resetLink),

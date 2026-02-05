@@ -1,4 +1,4 @@
-# Task List: ApniSec Assignment
+# Task List: CYBER-GM Assignment
 
 ## 1. Project Initialization
 - [x] Initialize Next.js 15+ (App Router, TS, Tailwind)

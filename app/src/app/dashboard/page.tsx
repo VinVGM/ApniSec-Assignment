@@ -169,7 +169,7 @@ export default function DashboardPage() {
                         <div className="flex items-center gap-2">
                             <Shield className="h-5 w-5 md:h-6 md:w-6 text-primary animate-pulse" />
                             <span className="font-mono text-lg md:text-xl font-bold tracking-tighter text-primary">
-                                APNI<span className="text-primary">SEC <span className="hidden sm:inline">DASHBOARD</span></span>
+                                CYBER<span className="text-primary">-GM <span className="hidden sm:inline">DASHBOARD</span></span>
                             </span>
                         </div>
                          <p className="text-muted-foreground text-[10px] md:text-xs uppercase tracking-widest mt-1">Status: Online</p>

@@ -22,7 +22,7 @@ import OrbitingCircles from "@/components/ui/orbiting-circles";
 import { TracingBeam } from "@/components/ui/tracing-beam";
 
 export const metadata = {
-  title: "ApniSec - Elite Cybersecurity Solutions",
+  title: "CYBER-GM - Elite Cybersecurity Solutions",
   description:
     "Virtual CISO, VAPT, and Compliance services for the modern enterprise.",
 };
@@ -36,7 +36,7 @@ export default function LandingPage() {
           <div className="flex items-center gap-2">
             <Shield className="h-6 w-6 text-primary animate-pulse" />
             <span className="font-mono text-xl font-bold tracking-tighter text-white">
-              APNI<span className="text-primary">SEC</span>
+              CYBER<span className="text-primary">-GM</span>
             </span>
           </div>
 
@@ -301,11 +301,11 @@ export default function LandingPage() {
           <div className="flex items-center gap-2">
             <Shield className="h-5 w-5 text-gray-400" />
             <span className="font-mono text-lg font-bold text-gray-300">
-              APNI<span className="text-gray-500">SEC</span>
+              CYBER<span className="text-gray-500">-GM</span>
             </span>
           </div>
           <p className="text-gray-500 text-sm">
-            © {new Date().getFullYear()} ApniSec Inc. All rights reserved.
+            © {new Date().getFullYear()} CYBER-GM Inc. All rights reserved.
           </p>
           <div className="flex gap-6 text-sm text-gray-500">
             <Link href="#" className="hover:text-primary transition-colors">
