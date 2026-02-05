@@ -2,6 +2,8 @@
 
 A secure, modern, and responsive dashboard for cybersecurity operations, built with Next.js 15.
 
+**🌐 Live Demo:** [https://cyber-gm-vgm.vercel.app/](https://cyber-gm-vgm.vercel.app/)
+
 ## 🚀 Technology Stack
 
 - **Framework:** Next.js 15 (App Router)
